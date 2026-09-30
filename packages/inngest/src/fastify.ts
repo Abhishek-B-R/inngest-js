@@ -127,7 +127,8 @@ export const serve = (
         },
         method: () => req.method,
         url: () => {
-          const hostname = req.headers["host"];
+          // HTTP/2 requests have no `host` header, only `:authority`.
+          const hostname = req.headers["host"] || req.headers[":authority"];
           const protocol = hostname?.includes("://")
             ? ""
             : `${req.protocol}://`;
